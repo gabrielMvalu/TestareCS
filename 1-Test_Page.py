@@ -24,7 +24,7 @@ else:
 
     # Inițializarea stării sesiunii pentru model și mesaje
     if "openai_model" not in st.session_state:
-        st.session_state["openai_model"] = "gpt-4-1106-preview"
+        st.session_state["openai_model"] = "gpt-4-0125-preview"
 
     if "messages" not in st.session_state:
         st.session_state.messages = []
@@ -45,6 +45,7 @@ else:
             stream = client.chat.completions.create(
                 model=st.session_state["openai_model"],
                 messages=[
+                    {"role": "system", "content": "Vei raspunde scriind cu cifre roamane la fiecare raspuns pe care-l dai!!!"}
                     {"role": m["role"], "content": m["content"]}
                     for m in st.session_state.messages
                 ],
@@ -52,3 +53,7 @@ else:
             )
             response = st.write_stream(stream)
         st.session_state.messages.append({"role": "assistant", "content": response})
+
+
+
+
